@@ -2,6 +2,7 @@ package com.social.media.platform.core.security;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.social.media.platform.core.services.PersonDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public class JWTFilter extends OncePerRequestFilter {
     private final JWTUtil jwtUtil;
     private final PersonDetailsService personDetailsService;
+    @Autowired
     public JWTFilter(JWTUtil jwtUtil, PersonDetailsService personDetailsService) {
         this.jwtUtil = jwtUtil;
         this.personDetailsService = personDetailsService;

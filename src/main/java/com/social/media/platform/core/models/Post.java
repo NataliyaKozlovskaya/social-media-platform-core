@@ -12,8 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
-//@ToString(exclude = {"listPictures"})
+@ToString(exclude = {"listPictures"})
 @Entity
 @Table(name = "Post")
 public class Post implements Serializable {
@@ -22,10 +21,10 @@ public class Post implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    //@Max(value=30, message = "Title should not be more than 30 characters")
+    @Max(value=30, message = "Title should not be more than 30 characters")
     private String title;
 
-    //@Max(value=200, message = "Content should not be more than 200 characters")
+    @Max(value=200, message = "Content should not be more than 200 characters")
     private String content;
 
     private Date time;
@@ -36,9 +35,7 @@ public class Post implements Serializable {
     @JoinColumn(name="user_id")
     private User user;
 
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Picture> listPictures = new ArrayList<>();
-
-
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Picture> listPictures = new ArrayList<>();
 
 }

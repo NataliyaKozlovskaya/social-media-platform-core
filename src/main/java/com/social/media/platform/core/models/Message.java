@@ -29,5 +29,4 @@ public class Message implements Serializable {
     @Max(value=200, message = "Context should not be more than 200 characters")
     private String context;
 
-
 }

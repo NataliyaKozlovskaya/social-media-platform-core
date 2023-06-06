@@ -34,9 +34,6 @@ public class User implements Serializable {
     @Email(message = "Try again, email should be valid")
     private String email;
 
-//    @NotNull(message = "Role could not be empty")
-//    private String role;  todo
-
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Friendship> listFriends = new ArrayList<>();
 
@@ -47,41 +44,3 @@ public class User implements Serializable {
     private List<Message> listMessages = new ArrayList<>();
 
 }
-
-
-//    @Override
-//    public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return Collections.singletonList(new SimpleGrantedAuthority(na);
-//    }
-//
-//    @Override
-//    public String getPassword() {
-//        return this.user.getPassword();
-//    }
-//
-//    @Override
-//    public String getUsername() {
-//        return this.user.getUsername();
-//    }
-//
-//    @Override
-//    public boolean isAccountNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isAccountNonLocked() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isCredentialsNonExpired() {
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean isEnabled() {
-//        return true;
-//    }
-//}
-

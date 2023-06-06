@@ -5,7 +5,6 @@ password VARCHAR(200) NOT NULL,
 email VARCHAR(50) NOT NULL
 );
 
-
 CREATE TABLE Message(
     id INTEGER PRIMARY KEY AUTO_INCREMENT,
     from_user_id INTEGER,
@@ -24,16 +23,13 @@ CREATE TABLE Post(
     user_id  INTEGER,
     CONSTRAINT FOREIGN KEY (user_id) REFERENCES User(id)
 );
-ALTER TABLE Post add column updated_time DATETIME;
-ALTER TABLE Post drop column updatedTime;
-
 
 CREATE TABLE Picture(
         id INTEGER PRIMARY KEY AUTO_INCREMENT,
         post_id INTEGER,
-        icon BLOB,
-        CONSTRAINT FOREIGN KEY (post_id) REFERENCES Post(id));
-
+        icon LONGBLOB,
+        CONSTRAINT FOREIGN KEY (post_id) REFERENCES Post(id)
+);
 
 CREATE TABLE Friendship(
                            id INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -44,4 +40,5 @@ CREATE TABLE Friendship(
                            correspondence BOOLEAN,
                            CONSTRAINT FOREIGN KEY (user_id) REFERENCES User(id),
                            CONSTRAINT FOREIGN KEY (friend_id) REFERENCES User(id),
-                           CONSTRAINT UNIQUE (user_id, friend_id));
+                           CONSTRAINT UNIQUE (user_id, friend_id)
+);

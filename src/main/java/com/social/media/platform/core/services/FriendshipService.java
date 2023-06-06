@@ -1,23 +1,20 @@
 package com.social.media.platform.core.services;
 
 import com.social.media.platform.core.models.Friendship;
-import com.social.media.platform.core.models.Message;
-import com.social.media.platform.core.models.Post;
 import com.social.media.platform.core.models.User;
 import com.social.media.platform.core.repositories.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.social.media.platform.core.repositories.FriendshipRepository;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
 public class FriendshipService {
     private final FriendshipRepository friendshipRepository;
-
     private final UserRepository userRepository;
 
+    @Autowired
     public FriendshipService(FriendshipRepository friendshipRepository, UserRepository userRepository) {
         this.friendshipRepository = friendshipRepository;
         this.userRepository = userRepository;
@@ -25,28 +22,6 @@ public class FriendshipService {
 
     @Transactional
     public void askFriendship(Integer userId, Integer friendId){
-
-//            User user = userRepository.getReferenceById(userId);
-//            User friend = userRepository.getReferenceById(friendId);
-//
-//            Friendship friendship = new Friendship();
-//
-//            friendship.setUser(user);
-//            friendship.setFriend(friend);
-//            friendship.setFlag(true);
-//
-//            Friendship friendship2 = new Friendship();
-//
-//            friendship2.setUser(friend);
-//            friendship2.setFriend(user);
-//
-//            friendshipRepository.save(friendship);
-//            friendshipRepository.save(friendship2);
-//
-//            user.getListFriends().add(friendship);
-//            user.getListFriends().add(friendship2);
-//            userRepository.save(user);
-//------------------------------------------------------
         User user = userRepository.getReferenceById(userId);
         User friend = userRepository.getReferenceById(friendId);
 
@@ -59,6 +34,7 @@ public class FriendshipService {
         Friendship friendship2 = new Friendship();
         friendship2.setUser(friend);
         friendship2.setFriend(user);
+
         //Subscription and Friendship, correspondence == null
 
         friendshipRepository.save(friendship);
@@ -67,13 +43,10 @@ public class FriendshipService {
         user.getListFriends().add(friendship);
         user.getListFriends().add(friendship2);
 
-        userRepository.save(user);//???
-        //userRepository.save(friend); // ??????????
-
-            //  flag true (1) - это друзья
-            //  flag false (0) - это подписка user'a на friend'a
-            //  flag null - ожидание ответа
+        userRepository.save(user);
+        userRepository.save(friend);
     }
+
     @Transactional
     public void answerFriendship(Integer askId,Integer ansId, boolean flag){
         Friendship friendshipAsk = friendshipRepository.getReferenceById(askId);
@@ -81,8 +54,9 @@ public class FriendshipService {
         if (flag){
             friendshipAsk.setFriendship(true);
             friendshipAns.setFriendship(true);
-            friendshipAsk.setFriendship(true);
+
             friendshipAns.setSubscription(true);
+
             friendshipAsk.setCorrespondence(true);
             friendshipAns.setCorrespondence(true);
         }else{
@@ -104,8 +78,8 @@ public class FriendshipService {
         friendshipRepository.deleteById(friendshipId);
     }
 
-//-----------------------------------------------------------------
-    @Transactional// запрос на переписку в случае, если user'а не друзья
+//  запрос на переписку в случае, если user'ы не друзья
+    @Transactional
     public void askCorrespondence(Integer fromUserId, Integer toUserId) {
         User fromUser = userRepository.getReferenceById(fromUserId);
         User toUser = userRepository.getReferenceById(toUserId);
@@ -121,7 +95,6 @@ public class FriendshipService {
             friendship2.setUser(toUser);
             friendship2.setFriend(fromUser);
             friendshipRepository.save(friendship2);
-
         }
     }
 
@@ -138,12 +111,5 @@ public class FriendshipService {
             friendshipRepository.delete(correspondence2);
         }
     }
-
-
-
-
-
-
-
 
 }
