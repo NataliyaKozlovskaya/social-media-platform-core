@@ -25,7 +25,7 @@ public class PersonDetailsService implements UserDetailsService {
         if (user == null) {
            throw new UsernameNotFoundException("User not found");
         }
-        return (UserDetails) user;//?????просто user TODO
+        return (UserDetails) user;
     }
 }
 

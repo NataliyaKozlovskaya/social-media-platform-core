@@ -32,9 +32,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception{
         http
-                .csrf().disable()// сначаа админ потом продукт
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/registration","/login").permitAll()
+                        .antMatchers("/swagger-ui/**","/v3/api-docs/**", "/registration","/login").permitAll()
                         .antMatchers(HttpMethod.GET,"/post/activePost/{userId}/{page}/{size}").access("@guard.checkUserId(authentication,#id)")
                         .antMatchers(HttpMethod.PATCH,"/post/{id}/updatedPost").access("@guard.checkUserId(authentication,#id)")
                         .antMatchers(HttpMethod.DELETE,"/post/{id}").access("@guard.checkUserId(authentication,#id)")

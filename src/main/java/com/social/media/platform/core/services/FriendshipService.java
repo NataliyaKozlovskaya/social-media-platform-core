@@ -78,7 +78,7 @@ public class FriendshipService {
         friendshipRepository.deleteById(friendshipId);
     }
 
-//  запрос на переписку в случае, если user'ы не друзья
+
     @Transactional
     public void askCorrespondence(Integer fromUserId, Integer toUserId) {
         User fromUser = userRepository.getReferenceById(fromUserId);

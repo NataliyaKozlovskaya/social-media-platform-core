@@ -15,8 +15,6 @@ import com.social.media.platform.core.repositories.UserRepository;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.stream.Stream;
 
@@ -43,6 +41,11 @@ public class PostService {
 
     public List<Post> findPostByUserId(Integer userId){
         return postRepository.findPostByUserId(userId);
+    }
+
+    public Page<Post> findAllPosts (Integer userId, Pageable pageable){
+        List<Integer> friendshipsId = friendshipRepository.listFriendshipId(userId);
+        return postRepository.findAllPostsByUserIdIn(friendshipsId, pageable);
     }
 
     @Transactional
@@ -77,11 +80,6 @@ public class PostService {
         @Transactional
         public void delete (Integer id){
             postRepository.deleteById(id);
-        }
-
-        public Page<Post> findAllPosts (Integer userId, Pageable pageable){
-            List<Integer> friendshipsId = friendshipRepository.listFriendshipId(userId);
-            return postRepository.findAllPostsByUserIdIn(friendshipsId, pageable);
         }
 
     }

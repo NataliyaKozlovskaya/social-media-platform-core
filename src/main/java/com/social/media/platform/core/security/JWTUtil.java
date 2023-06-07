@@ -11,8 +11,9 @@ import org.springframework.stereotype.Component;
 import java.time.ZonedDateTime;
 import java.util.Date;
 
-
-// генерируем и валидируем токен в этом классе
+/*
+ Generate and validate jwt-token in this class
+ */
 @Component
 public class JWTUtil {
     @Value("${jwt_secret}")
