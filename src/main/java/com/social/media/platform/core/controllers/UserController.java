@@ -10,6 +10,7 @@ import com.social.media.platform.core.util.Converter;
 import com.social.media.platform.core.util.UserValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -45,9 +46,8 @@ public class UserController {
         this.converter = converter;
     }
 
-    @Operation(summary = "User registration",
-            description = "User creation.")
-    @ApiResponse(responseCode = "200", description = "User successfully created")
+    @Operation(summary = "User registration", description = "User creation.")
+    @ApiResponses(value={@ApiResponse(responseCode = "200", description = "User successfully created")})
     @PostMapping("/registration")
     public Map<String, String> performRegistration(@RequestBody @Valid UserDTO userDTO,
                                                    BindingResult bindingResult){
@@ -80,8 +80,9 @@ public class UserController {
 
     @Operation(summary = "Request to chat with another user",
             description = "User can send a request to chat to another user, if they are not friends.")
-    @ApiResponse(responseCode = "200", description = "Send a request")
-    @ApiResponse(responseCode = "400", description = "Bad request")
+    @ApiResponses(value={
+            @ApiResponse(responseCode = "200", description = "Send a request"),
+            @ApiResponse(responseCode = "400", description = "Bad request")})
     @PostMapping("/correspondence/userFrom/{fromUserId}/userTo/{toUserId}")
     public void askCorrespondence(@PathVariable("fromUserId") Integer fromUserId,
                                   @PathVariable("toUserId") Integer toUserId) {
@@ -91,8 +92,9 @@ public class UserController {
     @Operation(summary = "A response to a request for correspondence",
             description = "If the answer is positive, you can start chatting.")
     @PatchMapping("/correspondence/{correspondenceId1}/{correspondenceId2}/{approval}")
-    @ApiResponse(responseCode = "200", description = "OK!")
-    @ApiResponse(responseCode = "400", description = "Bad request")
+    @ApiResponses(value={
+            @ApiResponse(responseCode = "200", description = "OK!"),
+            @ApiResponse(responseCode = "400", description = "Bad request")})
     public void ansCorrespondence(@PathVariable("correspondenceId1") Integer correspondenceId1,
                                   @PathVariable("correspondenceId2") Integer correspondenceId2,
                                   @PathVariable("approval") Boolean approval) {

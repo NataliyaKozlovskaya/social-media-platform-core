@@ -34,7 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                        .antMatchers("/swagger-ui/**","/v3/api-docs/**", "/registration","/login").permitAll()
+                        .antMatchers("/v3/api-docs/**","/swagger-ui/**","/swagger-resources/**","/swagger-ui.html","/webjars/**",
+                                "/registration","/login").permitAll()
                         .antMatchers(HttpMethod.GET,"/post/activePost/{userId}/{page}/{size}").access("@guard.checkUserId(authentication,#id)")
                         .antMatchers(HttpMethod.PATCH,"/post/{id}/updatedPost").access("@guard.checkUserId(authentication,#id)")
                         .antMatchers(HttpMethod.DELETE,"/post/{id}").access("@guard.checkUserId(authentication,#id)")
