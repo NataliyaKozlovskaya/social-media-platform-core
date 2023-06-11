@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Optional;
 
 @Tag(name = "Post controller", description = "Allows to create, update, delete, look through posts")
 @RestController
@@ -50,8 +51,9 @@ public class PostController {
                          schema = @Schema(implementation = Post.class))),
             @ApiResponse(responseCode = "400", description = "Bad request")})
     @GetMapping("/postById/{id}")
-    public List<Post> findAllById(@PathVariable("id") Integer id) {
-        return postService.findAllById(id);
+    public Post findPostById(@PathVariable("id") Integer id) {
+        Optional<Post> post = postService.findPostById(id);
+        return post.orElse(null);
     }
 
 
@@ -87,8 +89,8 @@ public class PostController {
             @ApiResponse(responseCode = "200", description = "Post was updated"),
             @ApiResponse(responseCode = "403", description = "Forbidden")})
     @PatchMapping("/{id}/updatedPost")
-    public void updatePost(@PathVariable("id") Integer id, @RequestBody Post updatedPost) {
-        postService.updatePost(id, updatedPost);
+    public void updatePost(@RequestBody Post updatedPost) {
+        postService.updatePost(updatedPost);
     }
 
 

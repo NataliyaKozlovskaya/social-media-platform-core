@@ -35,8 +35,8 @@ public class PostService {
         this.pictureRepository = pictureRepository;
     }
 
-    public List<Post> findAllById(Integer postId){
-        return postRepository.findAllById(Collections.singleton(postId));
+    public Optional<Post> findPostById(Integer postId){
+        return postRepository.findById(postId);
     }
 
     public List<Post> findPostByUserId(Integer userId){
@@ -51,16 +51,18 @@ public class PostService {
     @Transactional
     public void createNewPost(Integer userId, Post newPost, MultipartFile[] files) {
         User user = userRepository.getReferenceById(userId);
+
         newPost.setTime(new Date());
         newPost.setUser(user);
         postRepository.save(newPost);
 
         user.getListPosts().add(newPost);
+        userRepository.save(user);
 
-        Picture picture = new Picture();
-        picture.setPost(newPost);
         Stream.of(files).forEach(file-> {
             try {
+                Picture picture = new Picture();
+                picture.setPost(newPost);
                 byte[] bytes = file.getBytes();
                 picture.setIcon(bytes);
                 pictureRepository.save(picture);
@@ -71,8 +73,7 @@ public class PostService {
     }
 
         @Transactional
-        public void updatePost (Integer postId, Post updatedPost){
-            updatedPost.setId(postId);
+        public void updatePost (Post updatedPost){
             updatedPost.setUpdatedTime(new Date());
             postRepository.save(updatedPost);
         }

@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(exclude = {"listFriends", "listPosts", "listMessages"})
 @Getter
 @Setter
 @AllArgsConstructor
