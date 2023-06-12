@@ -26,7 +26,6 @@ import static org.mockito.Mockito.times;
 
 @ExtendWith(MockitoExtension.class)
 class PostServiceTest {
-
     @InjectMocks
     private PostService postService;
     @Mock
@@ -38,11 +37,15 @@ class PostServiceTest {
     @Mock
     private PictureRepository pictureRepository;
 
-
     @Test
     void shouldFindPostById() {
-        postService.findPostById(1);
+        Post post = new Post();
+        Optional<Post> postOp = Optional.of(post);
+        Mockito.when(postRepository.findById(1)).thenReturn(postOp);
+        Optional<Post> postById = postService.findPostById(1);
+
         Mockito.verify(postRepository, times(1)).findById(1);
+        Assertions.assertEquals(postOp, postById);
     }
 
 
@@ -54,8 +57,9 @@ class PostServiceTest {
 
         Assertions.assertEquals(2, listPosts.size());
 
-        postService.findPostByUserId(1);
+        List<Post> postByUserId = postService.findPostByUserId(1);
         Mockito.verify(postRepository, times(1)).findPostByUserId(1);
+        Assertions.assertEquals(listPosts, postByUserId);
     }
 
 
@@ -71,7 +75,8 @@ class PostServiceTest {
 
         Assertions.assertNotNull(listPosts);
         Assertions.assertEquals(2, listPosts.getSize());
-        postService.findAllPosts(1, pageable);
+        Page<Post> allPosts = postService.findAllPosts(1, pageable);
+        Assertions.assertEquals(listPosts, allPosts);
     }
 
 
